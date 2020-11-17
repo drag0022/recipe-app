@@ -1,0 +1,44 @@
+document.addEventListener('DOMContentLoaded', ()=>{
+    let searchButton = document.querySelector('button');
+    let searchField = document.querySelector('input');
+    searchButton.addEventListener('click', ()=>{
+        let searchText = searchField.value;
+        let URL = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`;
+        fetch(URL)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            console.log(data);
+            let recipes = document.querySelector('.recipes');
+            let df = new DocumentFragment();
+            data.meals.forEach(item=>{
+                recipes.innerHTML = "";
+                let recipe = document.createElement('li');
+                recipe.classList.add('recipe');
+                let title = document.createElement('p');
+                title.classList.add('recipeTitle');
+                let a = document.createElement('a');
+                let subTitle = document.createElement('ul');
+                subTitle.classList.add('subTitle');
+                for (let index = 0; index < 2; index++) {
+                    let highlight = document.createElement('li');
+                    highlight.classList.add('highlight');
+                    subTitle.appendChild(highlight);
+                }
+                recipes.appendChild(recipe);
+                recipe.appendChild(title);
+                title.appendChild(subTitle);
+                title.appendChild(a);
+                df.appendChild(title);
+                a.href = item.strSource;
+                a.innerHTML = item.strMeal;
+            })
+        recipes.appendChild(df);
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+    })
+
+})
