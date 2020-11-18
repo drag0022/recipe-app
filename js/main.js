@@ -16,23 +16,28 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 recipes.innerHTML = "";
                 let recipe = document.createElement('li');
                 recipe.classList.add('recipe');
+                recipes.appendChild(recipe);
                 let title = document.createElement('p');
                 title.classList.add('recipeTitle');
+                recipe.appendChild(title);
                 let a = document.createElement('a');
+                title.appendChild(a);
                 let subTitle = document.createElement('ul');
                 subTitle.classList.add('subTitle');
+                recipe.appendChild(subTitle);
                 for (let index = 0; index < 2; index++) {
                     let highlight = document.createElement('li');
                     highlight.classList.add('highlight');
                     subTitle.appendChild(highlight);
                 }
-                recipes.appendChild(recipe);
-                recipe.appendChild(title);
-                title.appendChild(subTitle);
-                title.appendChild(a);
-                df.appendChild(title);
+                let highlight = document.querySelectorAll('.highlight');
+                console.log(highlight);
+                highlight[0].innerHTML = `Region: ${item.strArea}`;
+                highlight[1].innerHTML = `Category: ${item.strCategory}`;
                 a.href = item.strSource;
                 a.innerHTML = item.strMeal;
+                df.appendChild(recipe);
+
             })
         recipes.appendChild(df);
         })
