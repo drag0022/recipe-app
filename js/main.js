@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
             return response.json();
         })
         .then(function(data) {
-            console.log(data);
             let recipes = document.querySelector('.recipes');
             let df = new DocumentFragment();
             data.meals.forEach(item=>{
@@ -17,6 +16,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 let recipe = document.createElement('li');
                 recipe.classList.add('recipe');
                 recipes.appendChild(recipe);
+                recipe.addEventListener('click', recipeClicked);
                 let title = document.createElement('p');
                 title.classList.add('recipeTitle');
                 recipe.appendChild(title);
@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     subTitle.appendChild(highlight);
                 }
                 let highlight = document.querySelectorAll('.highlight');
-                console.log(highlight);
                 highlight[0].innerHTML = `Region: ${item.strArea}`;
                 highlight[1].innerHTML = `Category: ${item.strCategory}`;
                 a.href = item.strSource;
@@ -40,10 +39,21 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
             })
         recipes.appendChild(df);
+        function recipeClicked(ev){
+            let recipe = ev.currentTarget;
+            if (recipe.classList.contains('recipeClicked')){
+                recipe.classList.remove('recipeClicked');
+            } else if (document.querySelectorAll('.recipeClicked').length < 1){
+                recipe.classList.add('recipeClicked');
+            }
+            
+        }
         })
         .catch(function(err) {
             console.log(err);
         });
     })
+    
 
-})
+});
+
